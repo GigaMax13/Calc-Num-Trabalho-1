@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Trabalho 1</title>
+</head>
+<body>
+
+<script>document.write('<script src=js/' + ('__proto__' in {} ? 'jquery-2.1.0' : 'jquery-1.11.0') + '.min.js><\/script>');</script>
+<script>
+	var t = 6,
+			g = 980,
+			m = 75000
+			x = [10000, 15000],
+			answer = (new Number(0)).toFixed(2);
+
+	function f(c){
+		//return (((g*m)/c)*(1 - Math.exp(-1 * ((c*t)/m)))) - 3600;
+		return ((73500000 * (1 - Math.exp(-c / 12500))) / c) - 3600;
+	}
+
+	function f1(c){
+		return ((12500 - (c + 12500) * Math.exp(-c / 12500)) / c); 
+	}
+
+	document.write('f(13462.3) = ' + f(13462.3) + '<br>');
+
+	for(i in x){
+		document.write('f(' + x[i] + ") = " + f(x[i]) + "<br>");
+	}
+
+	document.write('<br>');
+
+	// document.write(f(12500) + '<br><br>'); // +
+
+	// document.write(f(13750) + '<br><br>'); // -
+
+	// document.write(f(13125) + '<br><br>'); // +
+
+	// document.write(f(13437.5) + '<br><br>'); // +
+
+	// document.write(f(13593.75) + '<br><br>'); // -
+
+	function bisection(a, b, i){
+		var x = (a + b) / 2,
+				v = f(x);
+
+		document.write('c = ' + x + ' F(x) = ' + v + '<br>');
+
+		if(v.toFixed(1) != 0){
+			if(v > 0) bisection(x, b, ++i);
+			else bisection(a, x, ++i);
+		}else{
+			document.write('Iterações: ' + i + '<br>c = ' + x + '<br>v = ' + v + '<br><br>');
+		}
+	}
+
+	function falsePosition(a, b, i){
+		var fa = Math.abs(f(a)),
+				fb = Math.abs(f(b)),
+				x = ((a * fb) + (b * fa)) / (fa + fb),
+				v = f(x);
+
+		document.write('c = ' + x + ' |F(a)| = ' + fa + ' |F(b)| = ' + fb + ' F(x) = ' + v + '<br>');
+
+		if(v.toFixed(1) != 0){
+			falsePosition(a, x, ++i);
+		}else{
+			document.write('Iterações: ' + i + '<br>c = ' + x + '<br>v = ' + v + '<br><br>');
+		}
+	}
+
+	function secant(x0, x1, i){
+		var x = (x0 * f(x1) - x1 * f(x0))/(f(x1) - f(x0)),
+				v = f(x);
+
+		if(x.toFixed(1) != 13462.3){
+			secant(x1, x, ++i);
+		}else{
+			document.write('Iterações: ' + i + '<br>c = ' + x + '<br>v = ' + v + '<br><br>');
+		}
+	}
+
+	document.write('Bissecção<br>');
+	bisection(x[0], x[1], 1);
+
+	document.write('Falsa Posição<br>');
+	falsePosition(x[0], x[1], 1);
+
+	document.write('Secante<br>');
+	secant(10000, 14000, 1);
+</script>
+</body>
+</html>
