@@ -81,7 +81,7 @@ var Zeros = function(){
 		});
 
 		if(fx.toFixed(1) != 0){
-			return this.secant.call(this, b, x, ++i);
+			return this.secant.call(this, b, x, ++i, obj);
 		}else{
 			return obj;
 		}
